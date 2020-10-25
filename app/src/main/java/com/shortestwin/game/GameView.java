@@ -2,6 +2,9 @@ package com.shortestwin.game;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Rect;
 import android.view.SurfaceView;
 
 public class GameView extends SurfaceView implements Runnable {
@@ -10,6 +13,9 @@ public class GameView extends SurfaceView implements Runnable {
     private boolean isPlaying;
     private int screenWidth, screenHeight;
     private float screeRatioX, screenRatioY;
+
+    private Paint paint;
+    private Rect rect;
 
     public GameView(Context context, int screenWidth, int screenHeight) {
         super(context);
@@ -20,6 +26,9 @@ public class GameView extends SurfaceView implements Runnable {
         // To fit all mobiles with same ratio as mine
         this.screeRatioX = 2340f / screenWidth;
         this.screenRatioY = 1080f / screenHeight;
+
+        this.paint = new Paint();
+        this.rect = new Rect(490, 1120, 590, 1220);
     }
 
     @Override
@@ -32,11 +41,23 @@ public class GameView extends SurfaceView implements Runnable {
     }
 
     private void update() {
+        if(this.rect.left >= this.screenWidth) {
+            this.rect.left = 0;
+            this.rect.right = 100;
+        } else {
+            this.rect.left += 10;
+            this.rect.right += 10;
+        }
     }
 
     private void draw() {
         if(getHolder().getSurface().isValid()) {
             Canvas canvas = getHolder().lockCanvas();
+
+            paint.setColor(Color.BLACK);
+            canvas.drawRect(0, 0, screenWidth, screenHeight, paint);
+            paint.setColor(Color.WHITE);
+            canvas.drawRect(rect, paint);
 
             getHolder().unlockCanvasAndPost(canvas);
         }
