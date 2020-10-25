@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.view.MotionEvent;
 import android.view.SurfaceView;
 
 public class GameView extends SurfaceView implements Runnable {
@@ -15,7 +16,10 @@ public class GameView extends SurfaceView implements Runnable {
     private float screeRatioX, screenRatioY;
 
     private Paint paint;
+
     private Rect rect;
+    private boolean rectUp;
+    private boolean rectDown;
 
     public GameView(Context context, int screenWidth, int screenHeight) {
         super(context);
@@ -28,7 +32,10 @@ public class GameView extends SurfaceView implements Runnable {
         this.screenRatioY = 1080f / screenHeight;
 
         this.paint = new Paint();
-        this.rect = new Rect(490, 1120, 590, 1220);
+
+        this.rect = new Rect(490, screenHeight - 200, 590, screenHeight - 100);
+        this.rectUp = false;
+        this.rectDown = false;
     }
 
     @Override
@@ -48,6 +55,22 @@ public class GameView extends SurfaceView implements Runnable {
             this.rect.left += 10;
             this.rect.right += 10;
         }
+
+        if(this.rectUp && this.rect.top > 0) {
+            this.rect.top -= 10;
+            this.rect.bottom = this.rect.top + 100;
+        } else if(this.rectUp) {
+            this.rect.top = 0;
+            this.rect.bottom = this.rect.top + 100;
+        }
+
+        if(this.rectDown && this.rect.top + 100 < screenHeight) {
+            this.rect.top += 10;
+            this.rect.bottom = this.rect.top + 100;
+        } else if(this.rectDown) {
+            this.rect.top = screenHeight - 100;
+            this.rect.bottom = this.rect.top + 100;
+        }
     }
 
     private void draw() {
@@ -61,6 +84,32 @@ public class GameView extends SurfaceView implements Runnable {
 
             getHolder().unlockCanvasAndPost(canvas);
         }
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN: {
+                if(event.getY() < (int)(screenHeight / 2)) {
+                    this.rectUp = true;
+                    this.rectDown = false;
+                } else {
+                    this.rectDown = true;
+                    this.rectUp = false;
+                }
+
+                return true;
+            }
+            case MotionEvent.ACTION_UP: {
+                this.rectDown = false;
+                this.rectUp = false;
+
+                break;
+            }
+        }
+
+        return super.onTouchEvent(event);
     }
 
     private void sleep() {
