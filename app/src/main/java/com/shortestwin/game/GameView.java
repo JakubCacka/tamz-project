@@ -8,18 +8,21 @@ import android.graphics.Rect;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
 
+import com.shortestwin.game.core.InputHandler;
+
 public class GameView extends SurfaceView implements Runnable {
 
     private Thread thread;
     private boolean isPlaying;
-    private int screenWidth, screenHeight;
+    public int screenWidth, screenHeight;
     private float screeRatioX, screenRatioY;
 
+    private InputHandler inputHandler;
     private Paint paint;
 
-    private Rect rect;
-    private boolean rectUp;
-    private boolean rectDown;
+    public Rect rect;
+    public boolean rectUp;
+    public boolean rectDown;
 
     public GameView(Context context, int screenWidth, int screenHeight) {
         super(context);
@@ -31,6 +34,7 @@ public class GameView extends SurfaceView implements Runnable {
         this.screeRatioX = 2340f / screenWidth;
         this.screenRatioY = 1080f / screenHeight;
 
+        this.inputHandler = new InputHandler(this);
         this.paint = new Paint();
 
         this.rect = new Rect(490, screenHeight - 200, 590, screenHeight - 100);
@@ -88,25 +92,8 @@ public class GameView extends SurfaceView implements Runnable {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN: {
-                if(event.getY() < (int)(screenHeight / 2)) {
-                    this.rectUp = true;
-                    this.rectDown = false;
-                } else {
-                    this.rectDown = true;
-                    this.rectUp = false;
-                }
-
-                return true;
-            }
-            case MotionEvent.ACTION_UP: {
-                this.rectDown = false;
-                this.rectUp = false;
-
-                break;
-            }
+        if(this.inputHandler.handlePlayerTouch(event)) {
+            return true;
         }
 
         return super.onTouchEvent(event);
