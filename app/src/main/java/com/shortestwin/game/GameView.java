@@ -21,8 +21,6 @@ public class GameView extends SurfaceView implements Runnable {
     private Paint paint;
 
     public Rect rect;
-    public boolean rectUp;
-    public boolean rectDown;
 
     public GameView(Context context, int screenWidth, int screenHeight) {
         super(context);
@@ -38,8 +36,6 @@ public class GameView extends SurfaceView implements Runnable {
         this.paint = new Paint();
 
         this.rect = new Rect(490, screenHeight - 200, 590, screenHeight - 100);
-        this.rectUp = false;
-        this.rectDown = false;
     }
 
     @Override
@@ -60,18 +56,18 @@ public class GameView extends SurfaceView implements Runnable {
             this.rect.right += 10;
         }
 
-        if(this.rectUp && this.rect.top > 0) {
+        if(inputHandler.isTouchUp && this.rect.top > 0) {
             this.rect.top -= 10;
             this.rect.bottom = this.rect.top + 100;
-        } else if(this.rectUp) {
+        } else if(inputHandler.isTouchUp) {
             this.rect.top = 0;
             this.rect.bottom = this.rect.top + 100;
         }
 
-        if(this.rectDown && this.rect.top + 100 < screenHeight) {
+        if(inputHandler.isTouchDown && this.rect.top + 100 < screenHeight) {
             this.rect.top += 10;
             this.rect.bottom = this.rect.top + 100;
-        } else if(this.rectDown) {
+        } else if(inputHandler.isTouchDown) {
             this.rect.top = screenHeight - 100;
             this.rect.bottom = this.rect.top + 100;
         }

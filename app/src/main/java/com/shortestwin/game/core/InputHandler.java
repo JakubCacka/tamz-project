@@ -7,26 +7,30 @@ import com.shortestwin.game.GameView;
 public class InputHandler {
     private GameView context;
 
+    public boolean isTouchDown, isTouchUp;
+
     public InputHandler(GameView context) {
         this.context = context;
+        this.isTouchDown = false;
+        this.isTouchUp = false;
     }
 
     public boolean handlePlayerTouch(MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN: {
                 if(event.getY() < (int)(context.screenHeight / 2)) {
-                    context.rectUp = true;
-                    context.rectDown = false;
+                    this.isTouchUp = true;
+                    this.isTouchDown = false;
                 } else {
-                    context.rectDown = true;
-                    context.rectUp = false;
+                    this.isTouchUp = false;
+                    this.isTouchDown = true;
                 }
 
                 return true;
             }
             case MotionEvent.ACTION_UP: {
-                context.rectDown = false;
-                context.rectUp = false;
+                this.isTouchUp = false;
+                this.isTouchDown = false;
 
                 break;
             }
