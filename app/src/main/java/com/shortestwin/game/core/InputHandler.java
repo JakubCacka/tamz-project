@@ -5,12 +5,12 @@ import android.view.MotionEvent;
 import com.shortestwin.game.GameView;
 
 public class InputHandler {
-    private GameView context;
+    private GameView game;
 
     public boolean isTouchDown, isTouchUp;
 
     public InputHandler(GameView context) {
-        this.context = context;
+        this.game = context;
         this.isTouchDown = false;
         this.isTouchUp = false;
     }
@@ -18,7 +18,7 @@ public class InputHandler {
     public boolean handlePlayerTouch(MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN: {
-                if(event.getY() < (int)(context.screenHeight / 2)) {
+                if(event.getY() < (int)(game.screenHeight / 2)) {
                     this.isTouchUp = true;
                     this.isTouchDown = false;
                 } else {

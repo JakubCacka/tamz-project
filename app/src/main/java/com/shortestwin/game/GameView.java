@@ -9,18 +9,22 @@ import android.view.MotionEvent;
 import android.view.SurfaceView;
 
 import com.shortestwin.game.core.InputHandler;
+import com.shortestwin.game.level.Level;
 
 public class GameView extends SurfaceView implements Runnable {
 
     private Thread thread;
     private boolean isPlaying;
+
     public int screenWidth, screenHeight;
-    private float screeRatioX, screenRatioY;
+    public float screeRatioX, screenRatioY;
 
     private InputHandler inputHandler;
+    private Level level;
+
     private Paint paint;
 
-    public Rect rect;
+    private Rect rect;
 
     public GameView(Context context, int screenWidth, int screenHeight) {
         super(context);
@@ -33,6 +37,8 @@ public class GameView extends SurfaceView implements Runnable {
         this.screenRatioY = 1080f / screenHeight;
 
         this.inputHandler = new InputHandler(this);
+        this.level = new Level(this);
+
         this.paint = new Paint();
 
         this.rect = new Rect(490, screenHeight - 200, 590, screenHeight - 100);
@@ -77,8 +83,8 @@ public class GameView extends SurfaceView implements Runnable {
         if(getHolder().getSurface().isValid()) {
             Canvas canvas = getHolder().lockCanvas();
 
-            paint.setColor(Color.BLACK);
-            canvas.drawRect(0, 0, screenWidth, screenHeight, paint);
+            this.level.draw(canvas);
+
             paint.setColor(Color.WHITE);
             canvas.drawRect(rect, paint);
 
