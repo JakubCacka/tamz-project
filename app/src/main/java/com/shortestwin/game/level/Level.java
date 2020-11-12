@@ -36,11 +36,7 @@ public class Level {
         this.tiles = this.levelGenerator.getLevel();
     }
 
-    public void draw(Canvas canvas) {
-        Paint paint = new Paint();
-        paint.setColor(Color.BLACK);
-        canvas.drawRect(0, 0, game.screenWidth, game.screenHeight, paint);
-
+    public void draw(Canvas canvas, Paint paint) {
         for(int i = 0; i < tilesRowCount * tilesRowCount; i++) {
             this.tiles[i].draw(canvas, paint);
         }
