@@ -10,24 +10,32 @@ public class LevelGenerator {
     private int pathsNum;
     private PathFinder pathFinder;
     private Tile[] tiles;
+    private int[] blueprint;
 
 
-    public LevelGenerator(int pathsNum, Level level) {
+    public LevelGenerator(int pathsNum, Level level, int cols, int rows) {
         this.pathsNum = pathsNum;
 
-        this.pathFinder = level.pathFinder;
+        this.pathFinder = new PathFinder(level);
 
         int rectX = 0;
         int rectY = level.topOffset;
-        this.tiles = new Tile[100];
-        for(int i = 0; i < 100; i++) {
+        int tilesNum = cols * rows;
+        this.tiles = new Tile[tilesNum];
+        this.blueprint = new int[tilesNum];
+        for(int i = 0; i < tilesNum; i++) {
             Rect tileRect = new Rect(rectX, rectY, rectX + level.rectSize, rectY + level.rectSize);
-            this.tiles[i] = new Tile(true, -1, tileRect);
+            if(i % 2 == 0) {
+                this.tiles[i] = new Tile(true, -1, tileRect);
+            } else {
+                this.tiles[i] = new Tile(false, -1, tileRect);
+            }
+            this.blueprint[i] = 0;
 
             rectX += level.rectSize;
-            int col = (i + 1) % 10;
-            int row = (i + 1) / 10;
-            if((i + 1) % 10 == 0) {
+            int col = (i + 1) % cols;
+            int row = (i + 1) / rows;
+            if((i + 1) % cols == 0) {
                 rectX = 0;
                 rectY += level.rectSize;
             }

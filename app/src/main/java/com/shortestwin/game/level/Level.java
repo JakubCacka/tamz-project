@@ -14,6 +14,7 @@ public class Level {
     public int height;
     public int topOffset;
     public int rectSize;
+    int tilesRowCount;
 
     private Tile[] tiles;
 
@@ -23,13 +24,15 @@ public class Level {
     public Level(GameView game) {
         this.game = game;
 
+        this.tilesRowCount = 50;
+
         this.width = game.screenWidth;
         this.height = game.screenWidth;
         this.topOffset = game.screenHeight / 2 - this.height / 2;
-        this.rectSize = game.screenWidth / 10;
+        this.rectSize = game.screenWidth / this.tilesRowCount;
 
         this.pathFinder = new PathFinder(this);
-        this.levelGenerator = new LevelGenerator(1, this);
+        this.levelGenerator = new LevelGenerator(1, this, tilesRowCount, tilesRowCount);
         this.tiles = this.levelGenerator.getLevel();
     }
 
@@ -38,7 +41,7 @@ public class Level {
         paint.setColor(Color.BLACK);
         canvas.drawRect(0, 0, game.screenWidth, game.screenHeight, paint);
 
-        for(int i = 0; i < 100; i++) {
+        for(int i = 0; i < tilesRowCount * tilesRowCount; i++) {
             this.tiles[i].draw(canvas, paint);
         }
 
