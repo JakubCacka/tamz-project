@@ -39,10 +39,8 @@ public class PathFinder {
      * Adds the tiles and their cells to the nodes HashMaps.
      */
     public void add(Tile tile, Cell cell) {
-        if (!tile.isSolid()) {
-            this.availableNodes.put(Cell.hash(cell), tile);
-            this.nodesCells.put(Cell.hash(cell), cell);
-        }
+        this.availableNodes.put(Cell.hash(cell), tile);
+        this.nodesCells.put(Cell.hash(cell), cell);
     }
 
     /**
@@ -203,8 +201,8 @@ public class PathFinder {
             Cell newCell = curr.sumCells(DirectionController.getDirectionCell(dir));
 
             if(this.availableNodes.containsKey(Cell.hash(newCell))) {
-                if (!Cell.hasNegative(newCell)) { // TODO and also if neighbour is not barrier
-
+                //if (!Cell.hasNegative(newCell) && !this.availableNodes.get(Cell.hash(newCell)).isSolid()) { // TODO and also if neighbour is not barrier
+                if (!Cell.hasNegative(newCell)) {
                     if ((newCell.getCol() <= level.width / level.rectSize - 1) && (newCell.getRow() <= level.height / level.rectSize - 1)) {
                         neighbours.add(Cell.hash(newCell));
                     }
