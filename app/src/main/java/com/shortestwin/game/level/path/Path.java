@@ -67,6 +67,13 @@ public class Path {
     }
 
     /**
+     *  Removes last node in the path.
+     * */
+    public void removeLast() {
+        this.path.removeLast();
+    }
+
+    /**
      *  Gets all the cells in the path.
      * */
     public LinkedList<Cell> getPathNodes(){

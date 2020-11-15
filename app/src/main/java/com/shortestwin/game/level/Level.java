@@ -34,13 +34,14 @@ public class Level {
         this.pathFinder = new PathFinder(this);
         this.levelGenerator = new LevelGenerator(1, this, tilesRowCount, tilesRowCount);
         this.tiles = this.levelGenerator.getLevel();
+
+        this.tiles = this.levelGenerator.generateLevel();
     }
 
     public void draw(Canvas canvas, Paint paint) {
+
         for(int i = 0; i < tilesRowCount * tilesRowCount; i++) {
             this.tiles[i].draw(canvas, paint);
         }
-
-        levelGenerator.generateLevel();
     }
 }

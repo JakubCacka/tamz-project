@@ -7,6 +7,9 @@ import android.graphics.Rect;
 
 public class Tile {
     private boolean isSolid;
+    private boolean isGoal;
+    private boolean hasPlayer;
+    private boolean playerSelected;
     private int price;
 
     private Rect rect;
@@ -15,10 +18,20 @@ public class Tile {
         this.isSolid = isBlock;
         this.price = price;
         this.rect = rect;
+
+        this.hasPlayer = false;
+        this.isGoal = false;
+        this.playerSelected = false;
     }
 
     public void draw(Canvas canvas, Paint paint) {
         if(this.isSolid) {
+            paint.setColor(Color.GRAY);
+        } else if(this.hasPlayer) {
+            paint.setColor(Color.WHITE);
+        } else if(this.playerSelected) {
+            paint.setColor(Color.GREEN);
+        } else if(this.isGoal) {
             paint.setColor(Color.RED);
         } else {
             paint.setColor(Color.BLUE);
@@ -29,5 +42,17 @@ public class Tile {
 
     public boolean isSolid() {
         return this.isSolid;
+    }
+
+    public void setGoal(boolean goal) {
+        isGoal = goal;
+    }
+
+    public void setHasPlayer(boolean hasPlayer) {
+        this.hasPlayer = hasPlayer;
+    }
+
+    public void setPlayerSelected(boolean playerSelected) {
+        this.playerSelected = playerSelected;
     }
 }
