@@ -17,7 +17,6 @@ public class LevelGenerator {
     private int pathsNum;
     private PathFinder pathFinder;
     private Tile[] tiles;
-    private int[] blueprint;
 
 
     public LevelGenerator(int pathsNum, Level level, int cols, int rows) {
@@ -30,15 +29,11 @@ public class LevelGenerator {
         int rectY = level.topOffset;
         int tilesNum = cols * rows;
         this.tiles = new Tile[tilesNum];
-        this.blueprint = new int[tilesNum];
         for(int i = 0; i < tilesNum; i++) {
             Rect tileRect = new Rect(rectX, rectY, rectX + level.rectSize, rectY + level.rectSize);
             this.tiles[i] = new Tile(false, 1, tileRect);
-            this.blueprint[i] = 0;
 
             rectX += level.rectSize;
-            int col = (i + 1) % cols;
-            int row = (i + 1) / rows;
             if((i + 1) % cols == 0) {
                 rectX = 0;
                 rectY += level.rectSize;
@@ -51,37 +46,54 @@ public class LevelGenerator {
     }
 
     public Tile[] generateLevel() {
-        int[] ABCoords = this.setRandomAB();
+        Cell[] ABCoords = this.setRandomAB();
+        this.resetPathFinder();
 
-        for(int i = 0; i < this.tiles.length; i++) {
-            this.pathFinder.add(this.tiles[i], getCellCoord(i));
+        Path finalPath = new Path();
+        int tries = 0;
+        for(int i = 0; i < this.pathsNum; i++) {
+            Tile[] tmpLevel = this.copyTiles(this.tiles);
+            this.blockPhase(ABCoords);
+
+            finalPath = pathFinder.findShortestPath(ABCoords[0], ABCoords[1]);
+            if(!finalPath.pathHasGoal()) {
+                this.tiles = copyTiles(tmpLevel);
+                this.resetPathFinder();
+                i--;
+                tries++;
+            } else {
+                tries = 0;
+            }
+
+            if(tries >= 3) {
+                break;
+            }
         }
-        Path path = pathFinder.findShortestPath(this.getCellCoord(ABCoords[0]), this.getCellCoord(ABCoords[1]));
-        path.removeFirst();
-        path.removeLast();
+        finalPath = pathFinder.findShortestPath(ABCoords[0], ABCoords[1]);
 
-        for(Cell cell : path.getPathNodes()) {
+        for(Cell cell : finalPath.getPathNodes()) {
             int coord = this.getArrayCoord(cell);
-            this.blueprint[coord] = 1;
             this.tiles[coord].setPlayerSelected(true);
         }
 
         return this.tiles;
     }
 
-    private int[] setRandomAB() {
-        int[] output = new int[2];
+    private Cell[] setRandomAB() {
+        Cell[] output = new Cell[2];
 
         Random random = new Random();
 
         int blockRange = (this.level.tilesRowCount / 5) * this.level.tilesRowCount;
         int startTile = random.ints(0, blockRange).findFirst().getAsInt();
 
-        int endStart = this.blueprint.length - blockRange;
-        int endTile = random.ints(endStart, endStart + blockRange).findFirst().getAsInt();
+        int endStart = this.tiles.length - blockRange;
+        int endTile = 0;
+        while(true) {
+            endTile = random.ints(endStart, endStart + blockRange).findFirst().getAsInt();
 
-        this.blueprint[startTile] = -1;
-        this.blueprint[endTile] = -2;
+            if(endTile < this.tiles.length) break;
+        }
 
         this.tiles[startTile].setHasPlayer(true);
         this.tiles[endTile].setGoal(true);
@@ -89,8 +101,8 @@ public class LevelGenerator {
         this.setBlocksAround(getCellCoord(startTile), 1);
         this.setBlocksAround(getCellCoord(endTile), 1);
 
-        output[0] = startTile;
-        output[1] = endTile;
+        output[0] = this.getCellCoord(startTile);
+        output[1] = this.getCellCoord(endTile);
         return output;
     }
 
@@ -122,13 +134,33 @@ public class LevelGenerator {
                 if ((neighborCell.getCol() <= level.width / level.rectSize) && (neighborCell.getRow() <= level.height / level.rectSize)) {
                     int arrayCoord = this.getArrayCoord(neighborCell);
 
-                    this.tiles[arrayCoord].setSolid(true);
-                    this.blueprint[arrayCoord] = 0;
+                    if(arrayCoord < this.tiles.length) {
+                        this.tiles[arrayCoord].setSolid(true);
+                    }
                 }
             }
 
             counter += 1;
         }
+    }
+
+    private void blockPhase(Cell[] ABCoords) {
+        Path path = pathFinder.findShortestPath(ABCoords[0], ABCoords[1]);
+
+        Random random = new Random();
+
+
+        for(int i = 0; i < path.getPathNodes().size(); i++) {
+            if(i > 10 && i < path.getPathNodes().size() - 10) {
+                Cell cell = path.getPathNodes().get(i);
+                if (random.ints(0, 10).findFirst().getAsInt() == 1) {
+                    int remove = random.ints(0, Direction.values().length - 1).findFirst().getAsInt();
+                    this.setBlocksAround(cell, remove);
+                }
+            }
+        }
+
+        this.resetPathFinder();
     }
 
     private int getArrayCoord(Cell cell) {
@@ -140,5 +172,26 @@ public class LevelGenerator {
         int row = arrayCoord / this.level.tilesRowCount;
 
         return new Cell(col, row);
+    }
+
+    private void resetPathFinder() {
+        this.pathFinder.reset();
+        for(int i = 0; i < this.tiles.length; i++) {
+            this.pathFinder.add(this.tiles[i], getCellCoord(i));
+        }
+    }
+
+    private Tile[] copyTiles(Tile[] origin) {
+        Tile[] output = new Tile[origin.length];
+
+        for(int i = 0; i < origin.length; i++) {
+            try {
+                output[i] = (Tile) origin[i].clone();
+            } catch (CloneNotSupportedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return output;
     }
 }

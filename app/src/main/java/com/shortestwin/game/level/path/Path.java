@@ -53,10 +53,23 @@ public class Path {
     }
 
     /**
+     *  @return Last cell in the path.
+     * */
+    public Cell getLastNode() {
+        return this.path.getLast();
+    }
+
+    /**
      * @return Goal cell of the path.
      * */
     public Cell getGoal() {
         return goal;
+    }
+
+    public boolean pathHasGoal() {
+        if(this.path.size() <= 0) return false;
+
+        return Cell.compareCells(this.goal, this.getLastNode());
     }
 
     /**

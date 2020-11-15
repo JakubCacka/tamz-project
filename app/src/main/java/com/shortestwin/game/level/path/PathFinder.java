@@ -43,6 +43,11 @@ public class PathFinder {
         this.nodesCells.put(Cell.hash(cell), cell);
     }
 
+    public void reset() {
+        this.availableNodes = new HashMap<>();
+        this.nodesCells = new HashMap<>();
+    }
+
     /**
      * This method will try to find shortest path between two cells.
      * It is using a A* algorithm with euclidean estimate.

@@ -5,7 +5,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 
-public class Tile {
+public class Tile implements Cloneable {
     private boolean isSolid;
     private boolean isGoal;
     private boolean hasPlayer;
@@ -24,11 +24,18 @@ public class Tile {
         this.playerSelected = false;
     }
 
+    public Object clone() throws
+            CloneNotSupportedException {
+        return super.clone();
+    }
+
     public void draw(Canvas canvas, Paint paint) {
         if(this.isSolid) {
             paint.setColor(Color.GRAY);
         } else if(this.hasPlayer) {
             paint.setColor(Color.WHITE);
+        } else if(this.playerSelected && this.isGoal) {
+            paint.setColor(Color.YELLOW);
         } else if(this.playerSelected) {
             paint.setColor(Color.GREEN);
         } else if(this.isGoal) {

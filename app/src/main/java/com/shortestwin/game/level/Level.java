@@ -24,7 +24,7 @@ public class Level {
     public Level(GameView game) {
         this.game = game;
 
-        this.tilesRowCount = 50;
+        this.tilesRowCount = 30;
 
         this.width = game.screenWidth;
         this.height = game.screenWidth;
@@ -32,7 +32,7 @@ public class Level {
         this.rectSize = game.screenWidth / this.tilesRowCount;
 
         this.pathFinder = new PathFinder(this);
-        this.levelGenerator = new LevelGenerator(1, this, tilesRowCount, tilesRowCount);
+        this.levelGenerator = new LevelGenerator(3, this, tilesRowCount, tilesRowCount);
         this.tiles = this.levelGenerator.getLevel();
 
         this.tiles = this.levelGenerator.generateLevel();
