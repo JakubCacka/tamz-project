@@ -201,9 +201,8 @@ public class PathFinder {
             Cell newCell = curr.sumCells(DirectionController.getDirectionCell(dir));
 
             if(this.availableNodes.containsKey(Cell.hash(newCell))) {
-                //if (!Cell.hasNegative(newCell) && !this.availableNodes.get(Cell.hash(newCell)).isSolid()) { // TODO and also if neighbour is not barrier
-                if (!Cell.hasNegative(newCell)) {
-                    if ((newCell.getCol() <= level.width / level.rectSize - 1) && (newCell.getRow() <= level.height / level.rectSize - 1)) {
+                if (!Cell.hasNegative(newCell) && !this.availableNodes.get(Cell.hash(newCell)).isSolid()) { // TODO and also if neighbour is not barrier
+                    if ((newCell.getCol() <= level.width / level.rectSize) && (newCell.getRow() <= level.height / level.rectSize)) {
                         neighbours.add(Cell.hash(newCell));
                     }
                 }
