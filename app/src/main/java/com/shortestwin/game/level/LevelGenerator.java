@@ -16,28 +16,22 @@ public class LevelGenerator {
     private PathFinder pathFinder;
     private Tile[] tiles;
 
-    private int cols;
-    private int rows;
-
-    public LevelGenerator( Level level, int cols, int rows) {
+    public LevelGenerator( Level level) {
         this.level = level;
         this.pathFinder = new PathFinder(level);
-
-        this.cols = cols;
-        this.rows = rows;
     }
 
     private void initTiles() {
         int rectX = 0;
         int rectY = level.topOffset;
-        int tilesNum = cols * rows;
+        int tilesNum = level.tilesRowCount * level.tilesRowCount;
         this.tiles = new Tile[tilesNum];
         for(int i = 0; i < tilesNum; i++) {
             Rect tileRect = new Rect(rectX, rectY, rectX + level.rectSize, rectY + level.rectSize);
             this.tiles[i] = new Tile(false, 1, tileRect);
 
             rectX += level.rectSize;
-            if((i + 1) % cols == 0) {
+            if((i + 1) % level.tilesRowCount == 0) {
                 rectX = 0;
                 rectY += level.rectSize;
             }
