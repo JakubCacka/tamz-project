@@ -88,14 +88,14 @@ public class LevelGenerator {
 
         Random random = new Random();
 
-        int blockRange = (this.level.tilesRowCount / 5) * this.level.tilesRowCount;
+        int blockRange = this.level.tilesRowCount;
         int start = this.level.tilesRowCount * 2;
-        int startTile = random.ints(start, start + blockRange).findFirst().getAsInt();
+        int startTile = random.ints(start + 2, start + blockRange - 2).findFirst().getAsInt();
 
-        int endStart = this.tiles.length - blockRange - this.level.tilesRowCount * 2;
+        int endStart = this.tiles.length - this.level.tilesRowCount * 3;
         int endTile = 0;
         while(true) {
-            endTile = random.ints(endStart, endStart + blockRange).findFirst().getAsInt();
+            endTile = random.ints(endStart + 2, endStart + blockRange - 2).findFirst().getAsInt();
 
             if(endTile < this.tiles.length) break;
         }
