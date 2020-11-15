@@ -17,6 +17,7 @@ public class Level {
     int tilesRowCount;
 
     private Tile[] tiles;
+    private boolean regenerate;
 
     public PathFinder pathFinder;
     private LevelGenerator levelGenerator;
@@ -32,8 +33,7 @@ public class Level {
         this.rectSize = game.screenWidth / this.tilesRowCount;
 
         this.pathFinder = new PathFinder(this);
-        this.levelGenerator = new LevelGenerator(3, this, tilesRowCount, tilesRowCount);
-        this.tiles = this.levelGenerator.getLevel();
+        this.levelGenerator = new LevelGenerator(10, this, tilesRowCount, tilesRowCount);
 
         this.tiles = this.levelGenerator.generateLevel();
     }
@@ -43,5 +43,20 @@ public class Level {
         for(int i = 0; i < tilesRowCount * tilesRowCount; i++) {
             this.tiles[i].draw(canvas, paint);
         }
+    }
+
+    public void regenerateLevelTiles() {
+        this.tiles = this.levelGenerator.generateLevel();
+    }
+
+    public void update() {
+        if(regenerate) {
+            this.regenerateLevelTiles();
+            regenerate = false;
+        }
+    }
+
+    public void setRegenerate(boolean regenerate) {
+        this.regenerate = regenerate;
     }
 }

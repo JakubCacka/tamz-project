@@ -9,7 +9,6 @@ import com.shortestwin.game.utils.Direction;
 import com.shortestwin.game.utils.DirectionController;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Random;
 
 public class LevelGenerator {
@@ -18,6 +17,8 @@ public class LevelGenerator {
     private PathFinder pathFinder;
     private Tile[] tiles;
 
+    private int cols;
+    private int rows;
 
     public LevelGenerator(int pathsNum, Level level, int cols, int rows) {
         this.pathsNum = pathsNum;
@@ -25,6 +26,11 @@ public class LevelGenerator {
         this.level = level;
         this.pathFinder = new PathFinder(level);
 
+        this.cols = cols;
+        this.rows = rows;
+    }
+
+    private void initTiles() {
         int rectX = 0;
         int rectY = level.topOffset;
         int tilesNum = cols * rows;
@@ -46,6 +52,7 @@ public class LevelGenerator {
     }
 
     public Tile[] generateLevel() {
+        this.initTiles();
         Cell[] ABCoords = this.setRandomAB();
         this.resetPathFinder();
 
@@ -85,9 +92,10 @@ public class LevelGenerator {
         Random random = new Random();
 
         int blockRange = (this.level.tilesRowCount / 5) * this.level.tilesRowCount;
-        int startTile = random.ints(0, blockRange).findFirst().getAsInt();
+        int start = this.level.tilesRowCount * 2;
+        int startTile = random.ints(start, start + blockRange).findFirst().getAsInt();
 
-        int endStart = this.tiles.length - blockRange;
+        int endStart = this.tiles.length - blockRange - this.level.tilesRowCount * 2;
         int endTile = 0;
         while(true) {
             endTile = random.ints(endStart, endStart + blockRange).findFirst().getAsInt();

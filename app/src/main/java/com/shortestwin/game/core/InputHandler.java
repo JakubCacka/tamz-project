@@ -26,6 +26,8 @@ public class InputHandler {
                     this.isTouchDown = true;
                 }
 
+                this.game.level.setRegenerate(true);
+
                 return true;
             }
             case MotionEvent.ACTION_UP: {
