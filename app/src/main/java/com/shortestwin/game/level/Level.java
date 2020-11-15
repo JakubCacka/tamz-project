@@ -22,10 +22,13 @@ public class Level {
     public PathFinder pathFinder;
     private LevelGenerator levelGenerator;
 
+    private int level;
+
     public Level(GameView game) {
         this.game = game;
 
-        this.tilesRowCount = 30;
+        this.level = 1;
+        this.tilesRowCount = 10;
 
         this.width = game.screenWidth;
         this.height = game.screenWidth;
@@ -33,9 +36,9 @@ public class Level {
         this.rectSize = game.screenWidth / this.tilesRowCount;
 
         this.pathFinder = new PathFinder(this);
-        this.levelGenerator = new LevelGenerator(10, this, tilesRowCount, tilesRowCount);
+        this.levelGenerator = new LevelGenerator( this, tilesRowCount, tilesRowCount);
 
-        this.tiles = this.levelGenerator.generateLevel();
+        this.tiles = this.levelGenerator.generateLevel(this.level);
     }
 
     public void draw(Canvas canvas, Paint paint) {
@@ -46,7 +49,8 @@ public class Level {
     }
 
     public void regenerateLevelTiles() {
-        this.tiles = this.levelGenerator.generateLevel();
+        this.tiles = this.levelGenerator.generateLevel(this.level);
+        this.level++;
     }
 
     public void update() {

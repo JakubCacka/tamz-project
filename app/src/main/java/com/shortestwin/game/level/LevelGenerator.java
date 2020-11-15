@@ -13,16 +13,13 @@ import java.util.Random;
 
 public class LevelGenerator {
     private Level level;
-    private int pathsNum;
     private PathFinder pathFinder;
     private Tile[] tiles;
 
     private int cols;
     private int rows;
 
-    public LevelGenerator(int pathsNum, Level level, int cols, int rows) {
-        this.pathsNum = pathsNum;
-
+    public LevelGenerator( Level level, int cols, int rows) {
         this.level = level;
         this.pathFinder = new PathFinder(level);
 
@@ -51,14 +48,14 @@ public class LevelGenerator {
         return this.tiles;
     }
 
-    public Tile[] generateLevel() {
+    public Tile[] generateLevel(int blocksGeneration) {
         this.initTiles();
         Cell[] ABCoords = this.setRandomAB();
         this.resetPathFinder();
 
         Path finalPath = new Path();
         int tries = 0;
-        for(int i = 0; i < this.pathsNum; i++) {
+        for(int i = 0; i < blocksGeneration; i++) {
             Tile[] tmpLevel = this.copyTiles(this.tiles);
             this.blockPhase(ABCoords);
 
@@ -72,7 +69,7 @@ public class LevelGenerator {
                 tries = 0;
             }
 
-            if(tries >= 3) {
+            if(tries >= 20) {
                 break;
             }
         }
