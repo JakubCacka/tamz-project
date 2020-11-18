@@ -1,13 +1,16 @@
 package com.shortestwin.game;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Rect;
+import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
 
+import com.shortestwin.GameActivity;
 import com.shortestwin.game.core.InputHandler;
 import com.shortestwin.game.level.Level;
 
@@ -15,6 +18,9 @@ public class GameView extends SurfaceView implements Runnable {
 
     private Thread thread;
     private boolean isPlaying;
+
+    private Context context;
+    public DisplayMetrics display;
 
     public int screenWidth, screenHeight;
     public float screeRatioX, screenRatioY;
@@ -24,11 +30,28 @@ public class GameView extends SurfaceView implements Runnable {
 
     private Paint paint;
 
-    public GameView(Context context, int screenWidth, int screenHeight) {
+    public GameView(Context context) {
         super(context);
+        init(context);
+    }
 
-        this.screenWidth = screenWidth;
-        this.screenHeight = screenHeight;
+    public GameView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        init(context);
+    }
+
+    public GameView(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+        init(context);
+    }
+
+    private void init(Context context) {
+        this.context = context;
+
+        this.display = Resources.getSystem().getDisplayMetrics();
+
+        this.screenWidth = display.widthPixels;
+        this.screenHeight = display.heightPixels;
 
         // To fit all mobiles with same ratio as mine
         this.screeRatioX = 2340f / screenWidth;

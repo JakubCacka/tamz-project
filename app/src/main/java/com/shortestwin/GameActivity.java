@@ -2,9 +2,7 @@ package com.shortestwin;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.res.Resources;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 
 import com.shortestwin.game.GameView;
 
@@ -15,12 +13,10 @@ public class GameActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_game);
 
-        DisplayMetrics display = Resources.getSystem().getDisplayMetrics();
+        gameView = findViewById(R.id.gameView);
 
-        this.gameView = new GameView(this, display.widthPixels, display.heightPixels);
-
-        setContentView(gameView);
     }
 
     @Override
