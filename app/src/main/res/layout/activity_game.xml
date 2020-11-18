@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -18,15 +17,97 @@
         app:layout_constraintVertical_bias="1.0" />
 
     <Button
-        android:id="@+id/button3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Button"
+        android:id="@+id/dirN"
+        android:layout_width="69dp"
+        android:layout_height="53dp"
+        android:text="N"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.876"
+        app:layout_constraintHorizontal_bias="0.741"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/gameView"
-        app:layout_constraintVertical_bias="0.945" />
+        app:layout_constraintVertical_bias="0.796" />
+
+    <Button
+        android:id="@+id/dirNE"
+        android:layout_width="69dp"
+        android:layout_height="53dp"
+        android:text="NE"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/dirN"
+        app:layout_constraintTop_toTopOf="@+id/gameView"
+        app:layout_constraintVertical_bias="0.796" />
+
+    <Button
+        android:id="@+id/dirE"
+        android:layout_width="69dp"
+        android:layout_height="53dp"
+        android:text="E"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/dirNE"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/dirN"
+        app:layout_constraintTop_toBottomOf="@+id/dirNE"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/dirSE"
+        android:layout_width="69dp"
+        android:layout_height="53dp"
+        android:text="SE"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/dirE"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/dirN"
+        app:layout_constraintTop_toBottomOf="@+id/dirE"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/dirS"
+        android:layout_width="69dp"
+        android:layout_height="53dp"
+        android:text="S"
+        app:layout_constraintBottom_toBottomOf="@+id/dirSW"
+        app:layout_constraintEnd_toStartOf="@+id/dirSE"
+        app:layout_constraintStart_toEndOf="@+id/dirSW"
+        app:layout_constraintTop_toTopOf="@+id/dirSW" />
+
+    <Button
+        android:id="@+id/dirSW"
+        android:layout_width="69dp"
+        android:layout_height="53dp"
+        android:text="SW"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/dirW"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/dirW"
+        app:layout_constraintTop_toBottomOf="@+id/dirW"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/dirW"
+        android:layout_width="69dp"
+        android:layout_height="53dp"
+        android:text="W"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/dirN"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/dirNW"
+        app:layout_constraintTop_toBottomOf="@+id/dirNW"
+        app:layout_constraintVertical_bias="0.008" />
+
+    <Button
+        android:id="@+id/dirNW"
+        android:layout_width="69dp"
+        android:layout_height="53dp"
+        android:text="NW"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/dirN"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/gameView"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.795" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

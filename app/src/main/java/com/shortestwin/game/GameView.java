@@ -10,7 +10,6 @@ import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
 
-import com.shortestwin.GameActivity;
 import com.shortestwin.game.core.InputHandler;
 import com.shortestwin.game.level.Level;
 
