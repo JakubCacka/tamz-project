@@ -1,8 +1,8 @@
 package com.shortestwin.game.core;
 
 import android.view.MotionEvent;
-
 import com.shortestwin.game.GameView;
+import com.shortestwin.game.utils.Direction;
 
 public class InputHandler {
     private GameView game;
@@ -39,5 +39,8 @@ public class InputHandler {
         }
 
         return false;
+    }
+
+    public void handlePlayerMove(Direction direction) {
     }
 }

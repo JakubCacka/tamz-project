@@ -12,6 +12,7 @@ import android.view.SurfaceView;
 
 import com.shortestwin.game.core.InputHandler;
 import com.shortestwin.game.level.Level;
+import com.shortestwin.game.utils.Direction;
 
 public class GameView extends SurfaceView implements Runnable {
 
@@ -96,6 +97,10 @@ public class GameView extends SurfaceView implements Runnable {
         }
 
         return super.onTouchEvent(event);
+    }
+
+    public void handlePlayerMove(Direction direction) {
+        this.inputHandler.handlePlayerMove(direction);
     }
 
     private void sleep() {
