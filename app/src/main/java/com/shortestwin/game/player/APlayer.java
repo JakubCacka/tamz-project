@@ -7,6 +7,7 @@ import android.graphics.Rect;
 import com.shortestwin.game.level.Level;
 import com.shortestwin.game.level.path.Path;
 import com.shortestwin.game.utils.Cell;
+import com.shortestwin.game.utils.Direction;
 import com.shortestwin.game.utils.Helper;
 
 public abstract class APlayer {
@@ -18,10 +19,13 @@ public abstract class APlayer {
 
     private Path path;
 
+    private Direction moveDir;
+
     protected APlayer(String name, int color) {
         this.name = name;
         this.color = color;
         this.path = new Path();
+        this.moveDir = null;
     }
 
     public void draw(Canvas canvas, Paint paint, Level level) {
@@ -38,7 +42,12 @@ public abstract class APlayer {
         canvas.drawRect(this.rect, paint);
     }
 
-    public void update() {}
+    public void update() {
+        if(moveDir != null) {
+            // call move func
+            moveDir = null;
+        }
+    }
 
     public Cell getPosition() {
         return position;
@@ -54,5 +63,9 @@ public abstract class APlayer {
 
     public void setRect(Rect rect) {
         this.rect = rect;
+    }
+
+    public void setMoveDir(Direction moveDir) {
+        this.moveDir = moveDir;
     }
 }
