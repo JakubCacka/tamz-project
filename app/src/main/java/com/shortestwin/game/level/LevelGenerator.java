@@ -16,6 +16,8 @@ public class LevelGenerator {
     private PathFinder pathFinder;
     private Tile[] tiles;
 
+    private Tile start;
+
     public LevelGenerator( Level level) {
         this.level = level;
         this.pathFinder = new PathFinder(level);
@@ -67,12 +69,6 @@ public class LevelGenerator {
                 break;
             }
         }
-        finalPath = pathFinder.findShortestPath(ABCoords[0], ABCoords[1]);
-
-        for(Cell cell : finalPath.getPathNodes()) {
-            int coord = this.getArrayCoord(cell);
-            this.tiles[coord].setPlayerSelected(true);
-        }
 
         return this.tiles;
     }
@@ -94,14 +90,16 @@ public class LevelGenerator {
             if(endTile < this.tiles.length) break;
         }
 
-        this.tiles[startTile].setHasPlayer(true);
+        this.tiles[startTile].setStart(true);
+        this.start = this.tiles[startTile];
+
         this.tiles[endTile].setGoal(true);
 
-        this.setBlocksAround(getCellCoord(startTile), 1);
-        this.setBlocksAround(getCellCoord(endTile), 1);
+        this.setBlocksAround(Cell.getCellCoord(startTile, this.level.tilesRowCount), 1);
+        this.setBlocksAround(Cell.getCellCoord(endTile, this.level.tilesRowCount), 1);
 
-        output[0] = this.getCellCoord(startTile);
-        output[1] = this.getCellCoord(endTile);
+        output[0] = Cell.getCellCoord(startTile, this.level.tilesRowCount);
+        output[1] = Cell.getCellCoord(endTile, this.level.tilesRowCount);
         return output;
     }
 
@@ -131,7 +129,7 @@ public class LevelGenerator {
 
             if (!Cell.hasNegative(neighborCell)) {
                 if ((neighborCell.getCol() <= level.width / level.rectSize) && (neighborCell.getRow() <= level.height / level.rectSize)) {
-                    int arrayCoord = this.getArrayCoord(neighborCell);
+                    int arrayCoord = Cell.getArrayCoord(neighborCell, this.level.tilesRowCount);
 
                     if(arrayCoord < this.tiles.length) {
                         this.tiles[arrayCoord].setSolid(true);
@@ -162,21 +160,10 @@ public class LevelGenerator {
         this.resetPathFinder();
     }
 
-    private int getArrayCoord(Cell cell) {
-        return cell.getRow() * this.level.tilesRowCount + cell.getCol();
-    }
-
-    private Cell getCellCoord(int arrayCoord) {
-        int col = arrayCoord % this.level.tilesRowCount;
-        int row = arrayCoord / this.level.tilesRowCount;
-
-        return new Cell(col, row);
-    }
-
     private void resetPathFinder() {
         this.pathFinder.reset();
         for(int i = 0; i < this.tiles.length; i++) {
-            this.pathFinder.add(this.tiles[i], getCellCoord(i));
+            this.pathFinder.add(this.tiles[i], Cell.getCellCoord(i, this.level.tilesRowCount));
         }
     }
 
@@ -192,5 +179,9 @@ public class LevelGenerator {
         }
 
         return output;
+    }
+
+    public Tile getStart() {
+        return start;
     }
 }

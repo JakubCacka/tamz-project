@@ -11,6 +11,7 @@ import android.view.MotionEvent;
 import android.view.SurfaceView;
 
 import com.shortestwin.game.core.InputHandler;
+import com.shortestwin.game.player.Player;
 import com.shortestwin.game.level.Level;
 import com.shortestwin.game.utils.Direction;
 
@@ -27,6 +28,7 @@ public class GameView extends SurfaceView implements Runnable {
 
     private InputHandler inputHandler;
     public Level level;
+    private Player player;
 
     private Paint paint;
 
@@ -47,9 +49,7 @@ public class GameView extends SurfaceView implements Runnable {
 
     private void init(Context context) {
         this.context = context;
-
         this.display = Resources.getSystem().getDisplayMetrics();
-
         this.screenWidth = display.widthPixels;
         this.screenHeight = display.heightPixels;
 
@@ -57,6 +57,7 @@ public class GameView extends SurfaceView implements Runnable {
         this.screeRatioX = 2340f / screenWidth;
         this.screenRatioY = 1080f / screenHeight;
 
+        this.player = new Player("John Doe", Color.CYAN);
         this.inputHandler = new InputHandler(this);
         this.level = new Level(this);
 
@@ -125,5 +126,9 @@ public class GameView extends SurfaceView implements Runnable {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    public Player getPlayer() {
+        return player;
     }
 }

@@ -99,4 +99,15 @@ public class Cell {
     public static Integer hash(Cell cell) {
         return (cell.getCol() * 0x1f1f1f1f) ^ cell.getRow();
     }
+
+    public static int getArrayCoord(Cell cell, int tilesRowCount) {
+        return cell.getRow() * tilesRowCount + cell.getCol();
+    }
+
+    public static Cell getCellCoord(int arrayCoord, int tilesRowCount) {
+        int col = arrayCoord % tilesRowCount;
+        int row = arrayCoord / tilesRowCount;
+
+        return new Cell(col, row);
+    }
 }

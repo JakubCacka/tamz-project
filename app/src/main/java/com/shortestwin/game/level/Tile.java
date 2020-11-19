@@ -8,8 +8,7 @@ import android.graphics.Rect;
 public class Tile implements Cloneable {
     private boolean isSolid;
     private boolean isGoal;
-    private boolean hasPlayer;
-    private boolean playerSelected;
+    private boolean isStart;
     private int price;
 
     private Rect rect;
@@ -19,9 +18,8 @@ public class Tile implements Cloneable {
         this.price = price;
         this.rect = rect;
 
-        this.hasPlayer = false;
+        this.isStart = false;
         this.isGoal = false;
-        this.playerSelected = false;
     }
 
     public Object clone() throws
@@ -32,12 +30,8 @@ public class Tile implements Cloneable {
     public void draw(Canvas canvas, Paint paint) {
         if(this.isSolid) {
             paint.setColor(Color.GRAY);
-        } else if(this.hasPlayer) {
+        } else if(this.isStart) {
             paint.setColor(Color.WHITE);
-        } else if(this.playerSelected && this.isGoal) {
-            paint.setColor(Color.YELLOW);
-        } else if(this.playerSelected) {
-            paint.setColor(Color.GREEN);
         } else if(this.isGoal) {
             paint.setColor(Color.RED);
         } else {
@@ -59,11 +53,11 @@ public class Tile implements Cloneable {
         isGoal = goal;
     }
 
-    public void setHasPlayer(boolean hasPlayer) {
-        this.hasPlayer = hasPlayer;
+    public void setStart(boolean isStart) {
+        this.isStart = isStart;
     }
 
-    public void setPlayerSelected(boolean playerSelected) {
-        this.playerSelected = playerSelected;
+    public Rect getRect() {
+        return this.rect;
     }
 }
