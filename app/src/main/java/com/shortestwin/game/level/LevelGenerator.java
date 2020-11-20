@@ -16,7 +16,8 @@ public class LevelGenerator {
     private PathFinder pathFinder;
     private Tile[] tiles;
 
-    private Tile start;
+    private int start;
+    private int end;
 
     public LevelGenerator( Level level) {
         this.level = level;
@@ -38,10 +39,6 @@ public class LevelGenerator {
                 rectY += level.rectSize;
             }
         }
-    }
-
-    public Tile[] getLevel() {
-        return this.tiles;
     }
 
     public Tile[] generateLevel(int blocksGeneration) {
@@ -91,9 +88,10 @@ public class LevelGenerator {
         }
 
         this.tiles[startTile].setStart(true);
-        this.start = this.tiles[startTile];
+        this.start = startTile;
 
         this.tiles[endTile].setGoal(true);
+        this.end = endTile;
 
         this.setBlocksAround(Cell.getCellCoord(startTile, this.level.tilesRowCount), 1);
         this.setBlocksAround(Cell.getCellCoord(endTile, this.level.tilesRowCount), 1);
@@ -181,7 +179,19 @@ public class LevelGenerator {
         return output;
     }
 
+    public Path findShortestPath(Cell startCell, Cell endCell) {
+        return this.pathFinder.findShortestPath(startCell, endCell);
+    }
+
     public Tile getStart() {
-        return start;
+        return this.tiles[start];
+    }
+
+    public Cell getStartCell() {
+        return Cell.getCellCoord(start, level.tilesRowCount);
+    }
+
+    public Cell getEndCell() {
+        return Cell.getCellCoord(end, level.tilesRowCount);
     }
 }

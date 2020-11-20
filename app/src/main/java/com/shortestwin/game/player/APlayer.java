@@ -8,18 +8,19 @@ import com.shortestwin.game.level.Level;
 import com.shortestwin.game.level.path.Path;
 import com.shortestwin.game.utils.Cell;
 import com.shortestwin.game.utils.Direction;
+import com.shortestwin.game.utils.DirectionController;
 import com.shortestwin.game.utils.Helper;
 
 public abstract class APlayer {
     private String name;
     private int color;
 
-    private Cell position;
+    protected Cell position;
     private Rect rect;
 
     private Path path;
 
-    private Direction moveDir;
+    protected Direction moveDir;
 
     protected APlayer(String name, int color) {
         this.name = name;
@@ -42,11 +43,20 @@ public abstract class APlayer {
         canvas.drawRect(this.rect, paint);
     }
 
-    public void update() {
-        if(moveDir != null) {
-            // call move func
-            moveDir = null;
+    public void update(Level level) {
+        if(this.moveDir != null) {
+            this.move(level);
+
+            this.moveDir = null;
         }
+    }
+
+    protected void move(Level level) {
+        Cell dirCell = DirectionController.getDirectionCell(this.moveDir);
+        this.position = this.position.sumCells(dirCell);
+
+        int newCoord = Cell.getArrayCoord(this.position, level.tilesRowCount);
+        this.rect = level.getTiles()[newCoord].getRect();
     }
 
     public Cell getPosition() {

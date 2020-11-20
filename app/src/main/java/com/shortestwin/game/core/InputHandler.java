@@ -42,5 +42,6 @@ public class InputHandler {
     }
 
     public void handlePlayerMove(Direction direction) {
+        this.game.setPlayerMoveDir(direction);
     }
 }

@@ -6,9 +6,12 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 
 import com.shortestwin.game.GameView;
+import com.shortestwin.game.level.path.Path;
 import com.shortestwin.game.player.Bot;
 import com.shortestwin.game.player.Player;
 import com.shortestwin.game.level.path.PathFinder;
+import com.shortestwin.game.utils.Cell;
+import com.shortestwin.game.utils.Direction;
 
 public class Level {
     private GameView game;
@@ -63,15 +66,24 @@ public class Level {
             this.regenerateLevelTiles();
             regenerate = false;
         }
-        this.bot.update();
-        this.player.update();
+
+        this.bot.update(this);
+        this.player.update(this);
     }
 
     public void generateLevel() {
         this.tiles = this.levelGenerator.generateLevel(this.level);
         Rect startRect = this.levelGenerator.getStart().getRect();
-        this.bot.setRect(startRect);
+        Cell startCell = this.levelGenerator.getStartCell();
+        Cell endCell = this.levelGenerator.getEndCell();
+
         this.player.setRect(startRect);
+        this.player.setPosition(startCell);
+
+        Path botFullPath = this.levelGenerator.findShortestPath(startCell, endCell);
+        this.bot.setRect(startRect);
+        this.bot.setPosition(startCell);
+        this.bot.setFullPath(botFullPath);
     }
 
     public void regenerateLevelTiles() {
@@ -88,5 +100,10 @@ public class Level {
 
     public Tile[] getTiles() {
         return this.tiles;
+    }
+
+    public void setPlayerMoveDir(Direction direction) {
+        this.player.setMoveDir(direction);
+        this.bot.setMove(true);
     }
 }

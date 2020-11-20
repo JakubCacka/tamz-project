@@ -131,4 +131,8 @@ public class GameView extends SurfaceView implements Runnable {
     public Player getPlayer() {
         return player;
     }
+
+    public void setPlayerMoveDir(Direction direction) {
+        this.level.setPlayerMoveDir(direction);
+    }
 }

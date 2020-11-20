@@ -63,4 +63,21 @@ public class DirectionController {
 
         return output;
     }
+
+    public static Direction getDirectionFromCell(Cell cell) {
+        if(cell.getCol() < 0) {
+            if(cell.getRow() < 0) return Direction.NW;
+            if(cell.getRow() == 0) return Direction.W;
+            if(cell.getRow() > 0) return Direction.SW;
+        } else if(cell.getCol() == 0){
+            if(cell.getRow() < 0) return Direction.N;
+            if(cell.getRow() == 0) return null;
+            if(cell.getRow() > 0) return Direction.S;
+        } else if(cell.getCol() > 0) {
+            if (cell.getRow() < 0) return Direction.NE;
+            if (cell.getRow() == 0) return Direction.E;
+            if (cell.getRow() > 0) return Direction.SE;
+        }
+        return null;
+    }
 }
