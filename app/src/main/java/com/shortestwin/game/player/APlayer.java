@@ -53,10 +53,15 @@ public abstract class APlayer {
 
     protected void move(Level level) {
         Cell dirCell = DirectionController.getDirectionCell(this.moveDir);
-        this.position = this.position.sumCells(dirCell);
+        Cell futurePosition = this.position.sumCells(dirCell);
+        int futurePositionCoord = Cell.getArrayCoord(futurePosition, level.tilesRowCount);
 
-        int newCoord = Cell.getArrayCoord(this.position, level.tilesRowCount);
-        this.rect = level.getTiles()[newCoord].getRect();
+        if(!level.getTiles()[futurePositionCoord].isSolid()) {
+            this.position = futurePosition;
+
+            int newCoord = Cell.getArrayCoord(this.position, level.tilesRowCount);
+            this.rect = level.getTiles()[newCoord].getRect();
+        }
     }
 
     public Cell getPosition() {
