@@ -58,7 +58,8 @@ public abstract class APlayer {
         Cell futurePosition = this.position.sumCells(dirCell);
         int futurePositionCoord = Cell.getArrayCoord(futurePosition, level.tilesRowCount);
 
-        if(!level.getTiles()[futurePositionCoord].isSolid()) {
+        if(checkBarriers(futurePositionCoord, level.tilesRowCount)
+                && !level.getTiles()[futurePositionCoord].isSolid()) {
             this.position = futurePosition;
 
             int newCoord = Cell.getArrayCoord(this.position, level.tilesRowCount);
@@ -66,6 +67,18 @@ public abstract class APlayer {
 
             this.path.addNode(this.position);
         }
+    }
+
+    private boolean checkBarriers(int futurePositionCoord, int tilesRowCount) {
+        boolean validMove =  (futurePositionCoord < tilesRowCount * tilesRowCount
+                && futurePositionCoord >= 0);
+
+        if(this.position.getCol() == tilesRowCount - 1 && futurePositionCoord % tilesRowCount == 0)
+            validMove = false;
+        if(this.position.getCol() == 0 && futurePositionCoord % tilesRowCount == tilesRowCount - 1)
+            validMove = false;
+
+        return validMove;
     }
 
     public void resetPath() {
