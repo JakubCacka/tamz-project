@@ -6,7 +6,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.graphics.drawable.Drawable;
 
 import com.shortestwin.R;
 import com.shortestwin.game.GameView;
@@ -96,6 +95,11 @@ public class Level {
 
             canvas.drawBitmap(titleSign, null, new Rect(
                     x, y, x + titleSign.getWidth(), y + titleSign.getHeight()),null);
+            y += titleSign.getHeight() + 50;
+            x = this.width / 2 - 240;
+            paint.setColor(Color.WHITE);
+            paint.setTextSize(40);
+            canvas.drawText("Click screen for next level.", x, y, paint);
         } else {
             this.bot.draw(canvas, paint, this);
             this.player.draw(canvas, paint, this);
