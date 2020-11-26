@@ -6,4 +6,10 @@
     android:layout_height="match_parent"
     tools:context=".SettingsActivity">
 
+    <com.shortestwin.game.graphics.ColorBlockView
+        android:id="@+id/colorBlockView"
+        android:layout_width="218dp"
+        android:layout_height="104dp"
+        tools:layout_editor_absoluteX="61dp"
+        tools:layout_editor_absoluteY="42dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
