@@ -16,9 +16,9 @@ public abstract class APlayer {
     private int color;
 
     protected Cell position;
-    private Rect rect;
+    protected Rect rect;
 
-    private Path path;
+    protected Path path;
 
     protected Direction moveDir;
 

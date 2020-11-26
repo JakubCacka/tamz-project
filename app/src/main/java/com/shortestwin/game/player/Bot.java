@@ -20,13 +20,21 @@ public class Bot extends APlayer {
     @Override
     public void update(Level level) {
         if(move) {
-            Cell nextCell = this.fullPath.getFirstNode();
-            this.moveDir = DirectionController.getDirectionFromCell(nextCell.sumCellsNegative(this.position));
             this.move(level);
 
             this.fullPath.removeFirst();
             this.move = false;
         }
+    }
+
+    @Override
+    protected void move(Level level) {
+        this.position =  this.fullPath.getFirstNode();
+
+        int newCoord = Cell.getArrayCoord(this.position, level.tilesRowCount);
+        this.rect = level.getTiles()[newCoord].getRect();
+
+        this.path.addNode(this.position);
     }
 
     public void setMove(boolean move) {
