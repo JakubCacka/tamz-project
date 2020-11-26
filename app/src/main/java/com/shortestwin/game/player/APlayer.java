@@ -61,7 +61,13 @@ public abstract class APlayer {
 
             int newCoord = Cell.getArrayCoord(this.position, level.tilesRowCount);
             this.rect = level.getTiles()[newCoord].getRect();
+
+            this.path.addNode(this.position);
         }
+    }
+
+    public void resetPath() {
+        this.path = new Path();
     }
 
     public Cell getPosition() {
@@ -82,5 +88,13 @@ public abstract class APlayer {
 
     public void setMoveDir(Direction moveDir) {
         this.moveDir = moveDir;
+    }
+
+    public Path getPath() {
+        return this.path;
+    }
+
+    public int getColor() {
+        return this.color;
     }
 }

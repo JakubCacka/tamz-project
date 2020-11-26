@@ -1,5 +1,9 @@
 package com.shortestwin.game.level.path;
 
+import android.graphics.Canvas;
+import android.graphics.Paint;
+
+import com.shortestwin.game.level.Tile;
 import com.shortestwin.game.utils.Cell;
 
 import java.util.LinkedList;
@@ -107,5 +111,12 @@ public class Path {
         }
 
         return true;
+    }
+
+    public void draw(Canvas canvas, Paint paint, Tile[] tiles, int tilesRowCount) {
+        for(Cell cell : this.path) {
+            int tileCoord = Cell.getArrayCoord(cell, tilesRowCount);
+            canvas.drawRect(tiles[tileCoord].getRect(), paint);
+        }
     }
 }

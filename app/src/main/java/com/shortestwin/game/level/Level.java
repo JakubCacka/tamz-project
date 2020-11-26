@@ -7,6 +7,7 @@ import android.graphics.Rect;
 
 import com.shortestwin.game.GameView;
 import com.shortestwin.game.level.path.Path;
+import com.shortestwin.game.player.APlayer;
 import com.shortestwin.game.player.Bot;
 import com.shortestwin.game.player.Player;
 import com.shortestwin.game.level.path.PathFinder;
@@ -33,6 +34,10 @@ public class Level {
     private Player player;
     private Bot bot;
 
+    private boolean isEnd;
+    private boolean playerWin;
+    private boolean botWin;
+
     public Level(GameView game) {
         this.game = game;
         this.player = game.getPlayer();
@@ -57,18 +62,37 @@ public class Level {
             this.tiles[i].draw(canvas, paint);
         }
 
-        this.bot.draw(canvas, paint, this);
-        this.player.draw(canvas, paint, this);
+        if(this.isEnd) {
+            APlayer winner;
+            if(this.playerWin) {
+                winner = player;
+            } else {
+                winner = bot;
+            }
+
+            Path winPath = winner.getPath();
+            paint.setColor(winner.getColor());
+
+            winPath.draw(canvas, paint, this.tiles, this.tilesRowCount);
+        } else {
+            this.bot.draw(canvas, paint, this);
+            this.player.draw(canvas, paint, this);
+        }
     }
 
     public void update() {
-        if(regenerate) {
-            this.regenerateLevelTiles();
+        if(this.regenerate) {
+            if(this.isEnd) {
+                this.regenerateLevelTiles();
+            }
+
             regenerate = false;
         }
 
         this.bot.update(this);
         this.player.update(this);
+
+        this.checkEnd();
     }
 
     public void generateLevel() {
@@ -79,11 +103,17 @@ public class Level {
 
         this.player.setRect(startRect);
         this.player.setPosition(startCell);
+        this.player.resetPath();
 
         Path botFullPath = this.levelGenerator.findShortestPath(startCell, endCell);
         this.bot.setRect(startRect);
         this.bot.setPosition(startCell);
         this.bot.setFullPath(botFullPath);
+        this.bot.resetPath();
+
+        this.isEnd = false;
+        this.playerWin = false;
+        this.botWin = false;
     }
 
     public void regenerateLevelTiles() {
@@ -103,7 +133,17 @@ public class Level {
     }
 
     public void setPlayerMoveDir(Direction direction) {
-        this.player.setMoveDir(direction);
-        this.bot.setMove(true);
+        if(!this.isEnd) {
+            this.player.setMoveDir(direction);
+            this.bot.setMove(true);
+        }
+    }
+
+    private boolean checkEnd() {
+        this.playerWin = Cell.compareCells(levelGenerator.getEndCell(), player.getPosition());
+        this.botWin = Cell.compareCells(levelGenerator.getEndCell(), bot.getPosition());
+        this.isEnd = (playerWin || botWin);
+
+        return this.isEnd;
     }
 }
