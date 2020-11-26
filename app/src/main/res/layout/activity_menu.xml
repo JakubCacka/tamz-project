@@ -29,4 +29,17 @@
         app:layout_constraintStart_toStartOf="@+id/play"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.851" />
+
+    <TextView
+        android:id="@+id/settingsLink"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
+        android:onClick="menuItemClick"
+        android:text="Settings"
+        app:layout_constraintEnd_toEndOf="@+id/play"
+        app:layout_constraintHorizontal_bias="0.466"
+        app:layout_constraintStart_toStartOf="@+id/play"
+        app:layout_constraintTop_toBottomOf="@+id/play" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

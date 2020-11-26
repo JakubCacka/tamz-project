@@ -18,4 +18,21 @@ public class MenuActivity extends AppCompatActivity {
     public void startGame(View view) {
         startActivity(new Intent(this, GameActivity.class));
     }
+
+
+    public void menuItemClick(View view) {
+        Intent nextActivity;
+
+        switch (view.getId()) {
+            case R.id.settingsLink: {
+                nextActivity = new Intent(this, SettingsActivity.class);
+                break;
+            }
+            default: {
+                nextActivity = new Intent(this, this.getClass());
+            }
+        }
+
+        startActivity(nextActivity);
+    }
 }
