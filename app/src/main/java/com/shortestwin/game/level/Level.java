@@ -1,10 +1,14 @@
 package com.shortestwin.game.level;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 
+import com.shortestwin.R;
 import com.shortestwin.game.GameView;
 import com.shortestwin.game.level.path.Path;
 import com.shortestwin.game.player.APlayer;
@@ -37,8 +41,13 @@ public class Level {
     private boolean isEnd;
     private boolean playerWin;
     private boolean botWin;
+    private Bitmap winSign;
+    private Bitmap defeatSign;
 
     public Level(GameView game) {
+        this.winSign = BitmapFactory.decodeResource(game.getResources(), R.drawable.sign_victory);
+        this.defeatSign = BitmapFactory.decodeResource(game.getResources(), R.drawable.sign_defeat);
+
         this.game = game;
         this.player = game.getPlayer();
         this.bot = new Bot("Bot", Color.YELLOW);
@@ -74,6 +83,19 @@ public class Level {
             paint.setColor(winner.getColor());
 
             winPath.draw(canvas, paint, this.tiles, this.tilesRowCount);
+
+            Bitmap titleSign;
+            if(winner.isPlayable()) {
+                titleSign = this.winSign;
+            } else {
+                titleSign = this.defeatSign;
+            }
+
+            int x = this.width / 2 - titleSign.getWidth() / 2;
+            int y = this.topOffset / 2 - titleSign.getHeight() / 2;
+
+            canvas.drawBitmap(titleSign, null, new Rect(
+                    x, y, x + titleSign.getWidth(), y + titleSign.getHeight()),null);
         } else {
             this.bot.draw(canvas, paint, this);
             this.player.draw(canvas, paint, this);

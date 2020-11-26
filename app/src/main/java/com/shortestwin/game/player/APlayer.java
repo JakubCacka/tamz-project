@@ -14,6 +14,7 @@ import com.shortestwin.game.utils.Helper;
 public abstract class APlayer {
     private String name;
     private int color;
+    private boolean isPlayable;
 
     protected Cell position;
     protected Rect rect;
@@ -22,11 +23,12 @@ public abstract class APlayer {
 
     protected Direction moveDir;
 
-    protected APlayer(String name, int color) {
+    protected APlayer(String name, int color, boolean isPlayable) {
         this.name = name;
         this.color = color;
         this.path = new Path();
         this.moveDir = null;
+        this.isPlayable = isPlayable;
     }
 
     public void draw(Canvas canvas, Paint paint, Level level) {
@@ -96,5 +98,9 @@ public abstract class APlayer {
 
     public int getColor() {
         return this.color;
+    }
+
+    public boolean isPlayable() {
+        return isPlayable;
     }
 }

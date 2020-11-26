@@ -12,7 +12,7 @@ public class Bot extends APlayer {
     private boolean move;
 
     public Bot(String name, int color) {
-        super(name, color);
+        super(name, color, false);
 
         this.move = false;
     }
