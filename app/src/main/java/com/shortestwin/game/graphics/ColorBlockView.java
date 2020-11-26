@@ -39,17 +39,25 @@ public class ColorBlockView extends View {
     private void init(Context context) {
         this.context = context;
         this.paint = new Paint();
+
+        this.paint.setColor(Color.CYAN);
+        this.paint.setStyle(Paint.Style.FILL);
+    }
+
+    public void setColor(int color) {
+        this.paint.setColor(color);
+
+        this.invalidate();
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
-        paint.setStyle(Paint.Style.FILL);
-        paint.setColor(Color.RED);
         canvas.drawPaint(paint);
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        final ColorBlockView classInstance = this;
 
         ColorPickerDialogBuilder
                 .with(context)
@@ -60,12 +68,12 @@ public class ColorBlockView extends View {
                 .setOnColorSelectedListener(new OnColorSelectedListener() {
                     @Override
                     public void onColorSelected(int selectedColor) {
+                        classInstance.setColor(selectedColor);
                     }
                 })
                 .setPositiveButton("ok", new ColorPickerClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int selectedColor, Integer[] allColors) {
-
                     }
                 })
                 .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
