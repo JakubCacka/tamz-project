@@ -67,7 +67,7 @@ public class Level {
 
     public void draw(Canvas canvas, Paint paint) {
         for(int i = 0; i < tilesRowCount * tilesRowCount; i++) {
-            this.tiles[i].draw(canvas, paint);
+            this.tiles[i].draw(canvas, paint, this.game.textures);
         }
 
         if(this.isEnd) {

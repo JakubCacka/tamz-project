@@ -11,11 +11,13 @@ import android.view.MotionEvent;
 import android.view.SurfaceView;
 
 import com.shortestwin.game.core.InputHandler;
+import com.shortestwin.game.graphics.Textures;
 import com.shortestwin.game.player.Player;
 import com.shortestwin.game.level.Level;
 import com.shortestwin.game.utils.Direction;
 
 public class GameView extends SurfaceView implements Runnable {
+    public static final String MY_PREFS_NAME = "ShortestWinPrefs";
 
     private Thread thread;
     private boolean isPlaying;
@@ -26,6 +28,7 @@ public class GameView extends SurfaceView implements Runnable {
     public int screenWidth, screenHeight;
     public float screeRatioX, screenRatioY;
 
+    public Textures textures;
     private InputHandler inputHandler;
     public Level level;
     private Player player;
@@ -57,7 +60,8 @@ public class GameView extends SurfaceView implements Runnable {
         this.screeRatioX = 2340f / screenWidth;
         this.screenRatioY = 1080f / screenHeight;
 
-        this.player = new Player("John Doe", Color.CYAN);
+        this.textures = new Textures(context);
+        this.player = new Player("John Doe", textures.getPlayerColor());
         this.inputHandler = new InputHandler(this);
         this.level = new Level(this);
 

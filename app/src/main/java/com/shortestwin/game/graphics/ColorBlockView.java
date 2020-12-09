@@ -14,12 +14,11 @@ import com.flask.colorpicker.ColorPickerView;
 import com.flask.colorpicker.OnColorSelectedListener;
 import com.flask.colorpicker.builder.ColorPickerClickListener;
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
+import com.shortestwin.game.GameView;
 
 import static android.content.Context.MODE_PRIVATE;
 
 public class ColorBlockView extends View {
-    public static final String MY_PREFS_NAME = "ShortestWinPrefs";
-
     private Context context;
     private String idName;
 
@@ -43,9 +42,9 @@ public class ColorBlockView extends View {
 
     private void init(Context context) {
         this.context = context;
-        this.idName = this.getResources().getResourceName(this.getId());
+        this.idName = this.getResources().getResourceName(this.getId()).split("/")[1];
 
-        SharedPreferences prefs = context.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        SharedPreferences prefs = context.getSharedPreferences(GameView.MY_PREFS_NAME, MODE_PRIVATE);
         int storedColor = prefs.getInt(this.idName, Color.BLACK);
 
         this.paint = new Paint();
@@ -79,7 +78,7 @@ public class ColorBlockView extends View {
                     public void onColorSelected(int selectedColor) {
                         classInstance.setColor(selectedColor);
 
-                        SharedPreferences.Editor editor = classInstance.context.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
+                        SharedPreferences.Editor editor = classInstance.context.getSharedPreferences(GameView.MY_PREFS_NAME, MODE_PRIVATE).edit();
                         editor.putInt(classInstance.getIdName(), selectedColor);
                         editor.apply();
                     }

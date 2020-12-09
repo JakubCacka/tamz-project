@@ -1,9 +1,12 @@
 package com.shortestwin.game.level;
 
+import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+
+import com.shortestwin.game.graphics.Textures;
 
 public class Tile implements Cloneable {
     private boolean isSolid;
@@ -27,7 +30,7 @@ public class Tile implements Cloneable {
         return super.clone();
     }
 
-    public void draw(Canvas canvas, Paint paint) {
+    public void draw(Canvas canvas, Paint paint, Textures textures) {
         if(this.isSolid) {
             paint.setColor(Color.GRAY);
         } else if(this.isStart) {
