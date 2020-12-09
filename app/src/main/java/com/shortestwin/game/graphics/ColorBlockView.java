@@ -22,6 +22,7 @@ public class ColorBlockView extends View {
     private Context context;
     private String idName;
 
+    private Textures textures;
     private Paint paint;
 
 
@@ -44,11 +45,9 @@ public class ColorBlockView extends View {
         this.context = context;
         this.idName = this.getResources().getResourceName(this.getId()).split("/")[1];
 
-        SharedPreferences prefs = context.getSharedPreferences(GameView.MY_PREFS_NAME, MODE_PRIVATE);
-        int storedColor = prefs.getInt(this.idName, Color.BLACK);
-
+        this.textures = new Textures(context);
         this.paint = new Paint();
-        this.paint.setColor(storedColor);
+        this.paint.setColor(textures.getColorBasedOnName(idName));
         this.paint.setStyle(Paint.Style.FILL);
     }
 
@@ -70,7 +69,7 @@ public class ColorBlockView extends View {
         ColorPickerDialogBuilder
                 .with(context)
                 .setTitle("Choose color")
-                .initialColor(Color.BLACK)
+                .initialColor(classInstance.textures.getColorBasedOnName(classInstance.idName))
                 .wheelType(ColorPickerView.WHEEL_TYPE.FLOWER)
                 .density(12)
                 .setOnColorSelectedListener(new OnColorSelectedListener() {

@@ -30,4 +30,29 @@ public class Textures {
     public int getBackgroundColor() {
         return this.prefs.getInt("color_background", Color.BLUE);
     }
+
+    public int getColorBasedOnName(String textureName) {
+        int color = Color.BLACK;
+
+        switch (textureName) {
+            case "color_player": {
+                color = this.getPlayerColor();
+                break;
+            }
+            case "color_bot": {
+                color = this.getBotColor();
+                break;
+            }
+            case "color_block": {
+                color = this.getBlockColor();
+                break;
+            }
+            case "color_background": {
+                color = this.getBackgroundColor();
+                break;
+            }
+        }
+
+        return color;
+    }
 }
