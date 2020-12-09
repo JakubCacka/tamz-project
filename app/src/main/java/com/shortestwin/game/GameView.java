@@ -1,6 +1,7 @@
 package com.shortestwin.game;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -10,6 +11,7 @@ import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
 
+import com.shortestwin.MenuActivity;
 import com.shortestwin.game.core.InputHandler;
 import com.shortestwin.game.graphics.Textures;
 import com.shortestwin.game.player.Player;
@@ -75,6 +77,8 @@ public class GameView extends SurfaceView implements Runnable {
             this.draw();
             this.sleep();
         }
+
+        this.thread.interrupt();
     }
 
     private void update() {
@@ -124,12 +128,7 @@ public class GameView extends SurfaceView implements Runnable {
     }
 
     public void pause() {
-        try {
-            this.thread.join();
-            this.isPlaying = false;
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        this.isPlaying = false;
     }
 
     public Player getPlayer() {
@@ -139,4 +138,5 @@ public class GameView extends SurfaceView implements Runnable {
     public void setPlayerMoveDir(Direction direction) {
         this.level.setPlayerMoveDir(direction);
     }
+
 }

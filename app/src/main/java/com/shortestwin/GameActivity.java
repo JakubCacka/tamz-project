@@ -2,6 +2,7 @@ package com.shortestwin;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -73,5 +74,12 @@ public class GameActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         this.gameView.resume();
+    }
+
+    @Override
+    public void onBackPressed() {
+        this.gameView.pause();
+        Intent setIntent = new Intent(this, MenuActivity.class);
+        startActivity(setIntent);
     }
 }

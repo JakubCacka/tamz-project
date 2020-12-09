@@ -20,7 +20,7 @@ public class SettingsActivity extends AppCompatActivity {
     public void resetPreferences(View button) {
         SharedPreferences prefs = this.getSharedPreferences(GameView.MY_PREFS_NAME, MODE_PRIVATE);
         prefs.edit().clear().apply();
-        
+
         Intent intent = getIntent();
         finish();
         startActivity(intent);
