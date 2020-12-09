@@ -2,6 +2,7 @@ package com.shortestwin.game.graphics;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -14,9 +15,13 @@ import com.flask.colorpicker.OnColorSelectedListener;
 import com.flask.colorpicker.builder.ColorPickerClickListener;
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
 
+import static android.content.Context.MODE_PRIVATE;
+
 public class ColorBlockView extends View {
+    public static final String MY_PREFS_NAME = "ShortestWinPrefs";
 
     private Context context;
+    private String idName;
 
     private Paint paint;
 
@@ -38,9 +43,13 @@ public class ColorBlockView extends View {
 
     private void init(Context context) {
         this.context = context;
-        this.paint = new Paint();
+        this.idName = this.getResources().getResourceName(this.getId());
 
-        this.paint.setColor(Color.CYAN);
+        SharedPreferences prefs = context.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        int storedColor = prefs.getInt(this.idName, Color.BLACK);
+
+        this.paint = new Paint();
+        this.paint.setColor(storedColor);
         this.paint.setStyle(Paint.Style.FILL);
     }
 
@@ -69,6 +78,10 @@ public class ColorBlockView extends View {
                     @Override
                     public void onColorSelected(int selectedColor) {
                         classInstance.setColor(selectedColor);
+
+                        SharedPreferences.Editor editor = classInstance.context.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
+                        editor.putInt(classInstance.getIdName(), selectedColor);
+                        editor.apply();
                     }
                 })
                 .setPositiveButton("ok", new ColorPickerClickListener() {
@@ -85,5 +98,9 @@ public class ColorBlockView extends View {
                 .show();
 
         return super.onTouchEvent(event);
+    }
+
+    public String getIdName() {
+        return idName;
     }
 }

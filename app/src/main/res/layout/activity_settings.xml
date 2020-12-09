@@ -7,7 +7,7 @@
     tools:context=".SettingsActivity">
 
     <com.shortestwin.game.graphics.ColorBlockView
-        android:id="@+id/playerColor"
+        android:id="@+id/color_player"
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_marginStart="24dp"
