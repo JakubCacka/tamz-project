@@ -18,4 +18,16 @@ public class Textures {
     public int getPlayerColor() {
         return this.prefs.getInt("color_player", Color.CYAN);
     }
+
+    public int getBotColor() {
+        return this.prefs.getInt("color_bot", Color.YELLOW);
+    }
+
+    public int getBlockColor() {
+        return this.prefs.getInt("color_block", Color.GRAY);
+    }
+
+    public int getBackgroundColor() {
+        return this.prefs.getInt("color_background", Color.BLUE);
+    }
 }

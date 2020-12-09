@@ -32,13 +32,13 @@ public class Tile implements Cloneable {
 
     public void draw(Canvas canvas, Paint paint, Textures textures) {
         if(this.isSolid) {
-            paint.setColor(Color.GRAY);
+            paint.setColor(textures.getBlockColor());
         } else if(this.isStart) {
             paint.setColor(Color.WHITE);
         } else if(this.isGoal) {
             paint.setColor(Color.RED);
         } else {
-            paint.setColor(Color.BLUE);
+            paint.setColor(textures.getBackgroundColor());
         }
 
         canvas.drawRect(this.rect, paint);

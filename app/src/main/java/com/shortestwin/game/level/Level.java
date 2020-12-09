@@ -49,7 +49,7 @@ public class Level {
 
         this.game = game;
         this.player = game.getPlayer();
-        this.bot = new Bot("Bot", Color.YELLOW);
+        this.bot = new Bot("Bot", this.game.textures.getBotColor());
 
         this.level = 1;
         this.tilesRowCount = 10;
