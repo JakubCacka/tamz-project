@@ -12,6 +12,7 @@ import android.view.MotionEvent;
 import android.view.SurfaceView;
 
 import com.shortestwin.MenuActivity;
+import com.shortestwin.R;
 import com.shortestwin.game.core.InputHandler;
 import com.shortestwin.game.graphics.Textures;
 import com.shortestwin.game.player.Player;
@@ -63,7 +64,7 @@ public class GameView extends SurfaceView implements Runnable {
         this.screenRatioY = 1080f / screenHeight;
 
         this.textures = new Textures(context);
-        this.player = new Player("John Doe", textures.getPlayerColor());
+        this.player = new Player("John Doe", textures.getPlayerColor(), context);
         this.inputHandler = new InputHandler(this);
         this.level = new Level(this);
 
