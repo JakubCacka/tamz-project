@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.media.MediaPlayer;
 
 import com.shortestwin.R;
 import com.shortestwin.game.GameView;
@@ -40,6 +41,7 @@ public class Level {
     private boolean isEnd;
     private boolean playerWin;
     private boolean botWin;
+    private boolean soundPlayed;
     private Bitmap winSign;
     private Bitmap defeatSign;
 
@@ -84,10 +86,19 @@ public class Level {
             winPath.draw(canvas, paint, this.tiles, this.tilesRowCount);
 
             Bitmap titleSign;
+            int soundID;
             if(winner.isPlayable()) {
                 titleSign = this.winSign;
+                soundID = R.raw.victory;
             } else {
                 titleSign = this.defeatSign;
+                soundID = R.raw.defeat;
+            }
+
+            if(!this.soundPlayed) {
+                MediaPlayer mp = MediaPlayer.create(this.player.getContext(), soundID);
+                mp.start();
+                this.soundPlayed = true;
             }
 
             int x = this.width / 2 - titleSign.getWidth() / 2;
@@ -136,6 +147,7 @@ public class Level {
         this.isEnd = false;
         this.playerWin = false;
         this.botWin = false;
+        this.soundPlayed = false;
     }
 
     public void regenerateLevelTiles() {

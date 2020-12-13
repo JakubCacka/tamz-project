@@ -42,4 +42,8 @@ public class Player extends APlayer {
         LevelStats newLevelStats = new LevelStats(levelNum);
         this.score.addNewLevelStats(newLevelStats);
     }
+
+    public Context getContext() {
+        return context;
+    }
 }
