@@ -3,7 +3,9 @@ package com.shortestwin;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -17,6 +19,7 @@ import java.util.List;
 public class ScoresActivity extends AppCompatActivity {
 
     private ListView scores;
+    private DatabaseConnection DB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +27,7 @@ public class ScoresActivity extends AppCompatActivity {
         setContentView(R.layout.activity_scores);
 
         this.scores = findViewById(R.id.scoresList);
-        DatabaseConnection DB = new DatabaseConnection(this);
+        this.DB = new DatabaseConnection(this);
         ArrayList<LevelStats> levelsStats = DB.getScores();
 
         ArrayList<String> list = new ArrayList<>();
@@ -35,6 +38,12 @@ public class ScoresActivity extends AppCompatActivity {
         StableArrayAdapter adapter = new StableArrayAdapter(this,
                 android.R.layout.simple_list_item_1, list);
         scores.setAdapter(adapter);
+    }
+
+    public void resetScores(View view) {
+        this.DB.removeAll();
+        Intent nextActivity = new Intent(this, MenuActivity.class);
+        startActivity(nextActivity);
     }
 
     private class StableArrayAdapter extends ArrayAdapter<String> {

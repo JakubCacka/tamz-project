@@ -64,8 +64,11 @@ public class Score {
 
             if(statsForLevel.size() > 0) {
                 LevelStats statToUpdate = statsForLevel.get(0);
-                levelStats.setId(statToUpdate.getId());
-                this.DB.updateItem(levelStats);
+
+                if(levelStats.getMoves() < statToUpdate.getMoves()) {
+                    levelStats.setId(statToUpdate.getId());
+                    this.DB.updateItem(levelStats);
+                }
             } else {
                 this.DB.insertLevelScore(levelStats);
             }
