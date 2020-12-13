@@ -168,4 +168,8 @@ public class Level {
 
         return this.isEnd;
     }
+
+    public int getLevelNum() {
+        return this.level;
+    }
 }
