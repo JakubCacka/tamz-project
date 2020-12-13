@@ -33,8 +33,8 @@ public class DatabaseConnection extends SQLiteOpenHelper{
     public boolean insertLevelScore(LevelStats score) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put("level", score.getLevel());
-        contentValues.put("moves", score.getMoves());
+        contentValues.put(ITEM_COLUMN_LEVEL, score.getLevel());
+        contentValues.put(ITEM_COLUMN_MOVES, score.getMoves());
         long insertedId = db.insert("levels_scores", null, contentValues);
         if (insertedId == -1) return false;
         return true;
@@ -56,8 +56,8 @@ public class DatabaseConnection extends SQLiteOpenHelper{
         SQLiteDatabase db = this.getReadableDatabase();
 
         ContentValues contentValues = new ContentValues();
-        contentValues.put("level", score.getLevel());
-        contentValues.put("moves", score.getMoves());
+        contentValues.put(ITEM_COLUMN_LEVEL, score.getLevel());
+        contentValues.put(ITEM_COLUMN_MOVES, score.getMoves());
 
         db.update("levels_scores", contentValues, "id = ?", new String[] {String.valueOf(score.getId())});
         return true;
@@ -65,7 +65,7 @@ public class DatabaseConnection extends SQLiteOpenHelper{
 
     public ArrayList<LevelStats> getScores() {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res =  db.rawQuery( "select * from levels_scores", null );
+        Cursor res =  db.rawQuery( "select * from levels_scores order by level", null );
         res.moveToFirst();
 
         ArrayList<LevelStats> levelsStats = this.resToScores(res);
@@ -87,11 +87,12 @@ public class DatabaseConnection extends SQLiteOpenHelper{
         ArrayList<LevelStats> levelsStats = new ArrayList<>();
 
         while(res.isAfterLast() == false){
-            int level = res.getColumnIndex(ITEM_COLUMN_LEVEL);
+            int level = res.getInt(res.getColumnIndex(ITEM_COLUMN_LEVEL));
             int moves = res.getInt(res.getColumnIndex(ITEM_COLUMN_MOVES));
             LevelStats levelStats = new LevelStats(level);
             levelStats.setId(res.getInt(0));
             levelStats.setMoves(moves);
+
             levelsStats.add(levelStats);
             res.moveToNext();
         }

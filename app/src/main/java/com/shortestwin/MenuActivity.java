@@ -28,6 +28,10 @@ public class MenuActivity extends AppCompatActivity {
                 nextActivity = new Intent(this, SettingsActivity.class);
                 break;
             }
+            case R.id.scoresLink: {
+                nextActivity = new Intent(this, ScoresActivity.class);
+                break;
+            }
             default: {
                 nextActivity = new Intent(this, this.getClass());
             }

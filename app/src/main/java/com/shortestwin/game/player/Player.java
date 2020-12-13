@@ -37,8 +37,9 @@ public class Player extends APlayer {
     public void positionInLevel(Cell startCell, Rect startRect, int levelNum) {
         super.positionInLevel(startCell, startRect);
 
+        this.score.storeLastLevelToDB();
+
         LevelStats newLevelStats = new LevelStats(levelNum);
         this.score.addNewLevelStats(newLevelStats);
-        this.score.storeLastLevelToDB();
     }
 }
