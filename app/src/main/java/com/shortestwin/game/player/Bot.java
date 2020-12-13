@@ -35,6 +35,8 @@ public class Bot extends APlayer {
         this.rect = level.getTiles()[newCoord].getRect();
 
         this.path.addNode(this.position);
+
+        this.movesCount++;
     }
 
     public void setMove(boolean move) {

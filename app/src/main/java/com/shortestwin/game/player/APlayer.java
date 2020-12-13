@@ -1,6 +1,7 @@
 package com.shortestwin.game.player;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 
@@ -22,6 +23,7 @@ public abstract class APlayer {
     protected Path path;
 
     protected Direction moveDir;
+    protected int movesCount;
 
     protected APlayer(String name, int color, boolean isPlayable) {
         this.name = name;
@@ -29,6 +31,7 @@ public abstract class APlayer {
         this.path = new Path();
         this.moveDir = null;
         this.isPlayable = isPlayable;
+        this.movesCount = 0;
     }
 
     public void draw(Canvas canvas, Paint paint, Level level) {
@@ -43,6 +46,12 @@ public abstract class APlayer {
 
         paint.setColor(this.color);
         canvas.drawRect(this.rect, paint);
+
+        int rectSize = this.rect.right - this.rect.left;
+        int padding = rectSize / 5;
+        paint.setColor(Color.BLACK);
+        paint.setTextSize(rectSize - padding * 2);
+        canvas.drawText(Integer.toString(movesCount), rect.left + padding, rect.bottom - padding, paint);
     }
 
     public void update(Level level) {
@@ -67,6 +76,8 @@ public abstract class APlayer {
 
             this.path.addNode(this.position);
         }
+
+        this.movesCount++;
     }
 
     private boolean checkBarriers(int futurePositionCoord, int tilesRowCount) {
@@ -85,6 +96,7 @@ public abstract class APlayer {
         this.position = startCell;
         this.rect = startRect;
         this.resetPath();
+        this.movesCount = 0;
     }
 
     public void resetPath() {

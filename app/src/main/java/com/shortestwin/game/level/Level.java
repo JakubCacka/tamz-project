@@ -114,6 +114,13 @@ public class Level {
         } else {
             this.bot.draw(canvas, paint, this);
             this.player.draw(canvas, paint, this);
+
+            int x = this.width / 2 - 140;
+            int y = this.topOffset / 2;
+
+            paint.setColor(Color.WHITE);
+            paint.setTextSize(100);
+            canvas.drawText("Level " + level, x, y, paint);
         }
     }
 
