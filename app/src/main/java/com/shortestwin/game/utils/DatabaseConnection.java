@@ -15,8 +15,7 @@ public class DatabaseConnection extends SQLiteOpenHelper{
     public static final String ITEM_COLUMN_LEVEL = "level";
     public static final String ITEM_COLUMN_MOVES = "moves";
 
-    public DatabaseConnection(Context context)
-    {
+    public DatabaseConnection(Context context) {
         super(context, DATABASE_NAME, null, 1);
     }
 
@@ -31,8 +30,7 @@ public class DatabaseConnection extends SQLiteOpenHelper{
         onCreate(db);
     }
 
-    public boolean insertLevelScore(LevelStats score)
-    {
+    public boolean insertLevelScore(LevelStats score) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("level", score.getLevel());
@@ -42,56 +40,69 @@ public class DatabaseConnection extends SQLiteOpenHelper{
         return true;
     }
 
-    public boolean deleteItem (int id)
-    {
+    public boolean deleteItem (int id) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete("levels_scores", "id = ?", new String[] {String.valueOf(id)});
         return true;
     }
 
-    //Cursor representuje vracena data
-    public Cursor getData(int id){
+    public Cursor getData(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res =  db.rawQuery("select * from items where id=" + id + "", null);
+        Cursor res =  db.rawQuery("select * from levels_scores where id=" + id + "", null);
         return res;
     }
 
-    public boolean updateItem(Integer id, LevelStats score)
-    {
+    public boolean updateItem(LevelStats score) {
         SQLiteDatabase db = this.getReadableDatabase();
 
         ContentValues contentValues = new ContentValues();
         contentValues.put("level", score.getLevel());
         contentValues.put("moves", score.getMoves());
 
-        db.update("levels_scores", contentValues, "id = ?", new String[] {String.valueOf(id)});
+        db.update("levels_scores", contentValues, "id = ?", new String[] {String.valueOf(score.getId())});
         return true;
     }
 
-    public ArrayList<String> getItemList()
-    {
-        ArrayList<String> arrayList = new ArrayList<String>();
+    public ArrayList<LevelStats> getScores() {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res =  db.rawQuery( "select * from levels_scores", null );
         res.moveToFirst();
 
+        ArrayList<LevelStats> levelsStats = this.resToScores(res);
+
+        return levelsStats;
+    }
+
+    public ArrayList<LevelStats> getScoresByLevel(int levelNum) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("select * from levels_scores where level=?", new String[] {Integer.toString(levelNum)});
+        res.moveToFirst();
+
+        ArrayList<LevelStats> levelsStats = this.resToScores(res);
+
+        return levelsStats;
+    }
+
+    private ArrayList<LevelStats> resToScores(Cursor res) {
+        ArrayList<LevelStats> levelsStats = new ArrayList<>();
+
         while(res.isAfterLast() == false){
             int level = res.getColumnIndex(ITEM_COLUMN_LEVEL);
             int moves = res.getInt(res.getColumnIndex(ITEM_COLUMN_MOVES));
-            arrayList.add("Level " + level + ": " + moves + " moves");
+            LevelStats levelStats = new LevelStats(level);
+            levelStats.setId(res.getInt(0));
+            levelStats.setMoves(moves);
+            levelsStats.add(levelStats);
             res.moveToNext();
         }
 
-        return arrayList;
+        return levelsStats;
     }
 
-    public int removeAll()
-    {
+    public int removeAll() {
         SQLiteDatabase db = this.getWritableDatabase();
         int nRecordDeleted = db.delete("levels_scores", "", new String[]{});
         return nRecordDeleted;
     }
-
-
 }
 

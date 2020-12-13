@@ -48,4 +48,26 @@ public class Score {
 
         return null;
     }
+
+    public LevelStats getLastLevelStats() {
+        if(this.levelsStats.size() > 0)
+            return this.levelsStats.get(this.levelsStats.size() - 1);
+
+        return null;
+    }
+
+    public void storeLastLevelToDB() {
+        LevelStats levelStats = this.getLastLevelStats();
+
+        if(levelStats != null) {
+            ArrayList<LevelStats> statsForLevel = this.DB.getScoresByLevel(levelStats.getLevel());
+
+            if(statsForLevel.size() > 0) {
+                LevelStats statToUpdate = statsForLevel.get(0);
+                this.DB.updateItem(statToUpdate);
+            } else {
+                this.DB.insertLevelScore(levelStats);
+            }
+        }
+    }
 }

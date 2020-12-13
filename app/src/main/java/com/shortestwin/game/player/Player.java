@@ -39,5 +39,6 @@ public class Player extends APlayer {
 
         LevelStats newLevelStats = new LevelStats(levelNum);
         this.score.addNewLevelStats(newLevelStats);
+        this.score.storeLastLevelToDB();
     }
 }
