@@ -19,7 +19,7 @@ public class Player extends APlayer {
         super(name, color, true);
 
         this.context = context;
-        this.score = new Score();
+        this.score = new Score(context);
     }
 
 

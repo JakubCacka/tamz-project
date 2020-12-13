@@ -1,5 +1,9 @@
 package com.shortestwin.game.player.score;
 
+import android.content.Context;
+
+import com.shortestwin.game.utils.DatabaseConnection;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -8,8 +12,10 @@ public class Score {
     private ArrayList<LevelStats> levelsStats;
     private Comparator<LevelStats> levelsComparator;
 
+    private DatabaseConnection DB;
 
-    public Score() {
+
+    public Score(Context context) {
         this.levelsStats = new ArrayList<>();
 
         this.levelsComparator = new Comparator<LevelStats>() {
@@ -18,6 +24,8 @@ public class Score {
                 return o1.getLevel() - o2.getLevel();
             }
         };
+
+        this.DB = new DatabaseConnection(context);
     }
 
     public void addNewLevelStats(LevelStats newLevelStats) {
