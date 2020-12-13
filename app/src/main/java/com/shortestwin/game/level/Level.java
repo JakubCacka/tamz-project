@@ -127,15 +127,11 @@ public class Level {
         Cell startCell = this.levelGenerator.getStartCell();
         Cell endCell = this.levelGenerator.getEndCell();
 
-        this.player.setRect(startRect);
-        this.player.setPosition(startCell);
-        this.player.resetPath();
+        this.player.positionInLevel(startCell, startRect, level);
 
         Path botFullPath = this.levelGenerator.findShortestPath(startCell, endCell);
-        this.bot.setRect(startRect);
-        this.bot.setPosition(startCell);
         this.bot.setFullPath(botFullPath);
-        this.bot.resetPath();
+        this.bot.positionInLevel(startCell, startRect);
 
         this.isEnd = false;
         this.playerWin = false;

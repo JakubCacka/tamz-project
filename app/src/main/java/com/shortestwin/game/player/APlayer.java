@@ -81,6 +81,12 @@ public abstract class APlayer {
         return validMove;
     }
 
+    public void positionInLevel(Cell startCell, Rect startRect) {
+        this.position = startCell;
+        this.rect = startRect;
+        this.resetPath();
+    }
+
     public void resetPath() {
         this.path = new Path();
     }
