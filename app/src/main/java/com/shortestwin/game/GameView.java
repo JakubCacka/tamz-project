@@ -130,6 +130,9 @@ public class GameView extends SurfaceView implements Runnable {
 
     public void pause() {
         this.isPlaying = false;
+
+        if(this.level.isEnd())
+            this.player.storeLastLevel();
     }
 
     public Player getPlayer() {

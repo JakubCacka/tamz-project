@@ -191,4 +191,8 @@ public class Level {
     public int getLevelNum() {
         return this.level;
     }
+
+    public boolean isEnd() {
+        return isEnd;
+    }
 }

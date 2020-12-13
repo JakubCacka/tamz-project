@@ -43,6 +43,10 @@ public class Player extends APlayer {
         this.score.addNewLevelStats(newLevelStats);
     }
 
+    public void storeLastLevel() {
+        this.score.storeLastLevelToDB();
+    }
+
     public Context getContext() {
         return context;
     }
